@@ -76,6 +76,7 @@ import (
 	"tidbyt.dev/community/apps/mlbscores"
 	"tidbyt.dev/community/apps/mlsscores"
 	"tidbyt.dev/community/apps/mnlightrail"
+	"tidbyt.dev/community/apps/monkeytype"
 	"tidbyt.dev/community/apps/moretransit"
 	"tidbyt.dev/community/apps/moviequotes"
 	"tidbyt.dev/community/apps/natdex"
@@ -130,6 +131,7 @@ import (
 	"tidbyt.dev/community/apps/surfforecast"
 	"tidbyt.dev/community/apps/surflive"
 	"tidbyt.dev/community/apps/tartan"
+	"tidbyt.dev/community/apps/tautulli"
 	"tidbyt.dev/community/apps/tcatbusarrivals"
 	"tidbyt.dev/community/apps/tempest"
 	"tidbyt.dev/community/apps/testpatterns"
@@ -231,6 +233,7 @@ func GetManifests() []manifest.Manifest {
 		mlbscores.New(),
 		mlsscores.New(),
 		mnlightrail.New(),
+		monkeytype.New(),
 		moretransit.New(),
 		moviequotes.New(),
 		natdex.New(),
@@ -285,6 +288,7 @@ func GetManifests() []manifest.Manifest {
 		surfforecast.New(),
 		surflive.New(),
 		tartan.New(),
+		tautulli.New(),
 		tcatbusarrivals.New(),
 		tempest.New(),
 		testpatterns.New(),
