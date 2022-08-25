@@ -21,7 +21,6 @@ Tautulli_Icon = base64.decode("""
 iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPCAYAAAA71pVKAAAAAXNSR0IArs4c6QAAAXVJREFUOE+dk7tKA0EUhv+Z1RiLoCnsAks0hdEVjQoqRhG1thXs9A0svDyCFwTFQivfwcLKBCHWQhJzUVCD2AkBCw0psnvkDO66u4kEnOrM5fvnnPPPCPhGJDLTHeqp1fzrmjBjhULh2b0u3JP48Cj5If+8XMw5jBO0A8myYBFB0zTYAgpuB/KZ1NaLSmJxT4f8ERB/1ehP92qzgq4OwtJ+FEKqO2+FfSsRcToYn5xGvV73sJxyQv9C9i3kWXdg0zTxWL5Xm0PGmHOIRdPbFSwf9jf10oFBhGRyFifHR0hMTEFKCQZTDB5EIYTHGCX0C9u6RCgVc1hZiOF8/R2n12FcZsMtHWyGAXCN6Z0Ka6P6qWH1TG8NG4YxYJL2ZNd2kenFxvwH+taqaDQaCAaDbCUCgU7ks3cqtktwfOaG3ey+qhu4OZZl4aGUx2B8BBBCxTx47vhs58OWsYAU0vbRaxeREmx6YW6Bf71tl0AGwFwrEfen4P1vSSueYQes1/cAAAAASUVORK5CYII=
 """)
 
-
 def lightness(color, amount):
     hsl_color = rgb_to_hsl(*hex_to_rgb(color))
     hsl_color_list = list(hsl_color)
@@ -105,47 +104,45 @@ def hex_to_rgb(color):
 def rgb_to_hex(r, g, b):
     return "#" + str("%x" % ((1 << 24) + (r << 16) + (g << 8) + b))[1:]
 
-
 def main(config):
-    if config.str("api")==None:
-            return render.Root(
-            child = render.WrappedText("Please enter the API info!")
-            )
-    else:  
-        cacheInfo = cache.get("apekey-"+config.str("api"))
+    if config.str("api") == None:
+        return render.Root(
+            child = render.WrappedText("Please enter the API info!"),
+        )
+    else:
+        cacheInfo = cache.get("apekey-" + config.str("api"))
         if cacheInfo != None:
             print("Hit! Displaying cached data.")
             rep = json.decode(cacheInfo)
         else:
             print("Miss! Calling Monkeytype API.")
             headers = {
-                'Authorization': 'ApeKey '+config.str("api")
-                }
-            rep = http.get("https://api.monkeytype.com/users/personalBests?mode="+str(config.str("mode1"))+"&mode2="+str(config.str("mode2")),headers=headers)
+                "Authorization": "ApeKey " + config.str("api"),
+            }
+            rep = http.get("https://api.monkeytype.com/users/personalBests?mode=" + str(config.str("mode1")) + "&mode2=" + str(config.str("mode2")), headers = headers)
             if rep.status_code != 200:
                 fail("Monkeytype request failed with status %d", rep.status_code)
-            rep= rep.json()
-            cache.set("apekey-"+config.str("api"),json.encode(rep), ttl_seconds=1)
-            
+            rep = rep.json()
+            cache.set("apekey-" + config.str("api"), json.encode(rep), ttl_seconds = 1)
 
-        print(rep["data"])
-        if rep["data"]==None:
-            print("WHOOP")
-            acc="--"
-            wpm="--"
-            consistency="--"
-            timestamp="--"
+        # print(rep["data"])
+        if rep["data"] == None:
+            # print("WHOOP")
+            acc = "--"
+            wpm = "--"
+            consistency = "--"
+            timestamp = "--"
         else:
-            acc=rep["data"][0]["acc"]
-            wpm=rep["data"][0]["wpm"]
-            consistency=rep["data"][0]["consistency"]
-            timestamp=rep["data"][0]["timestamp"]
+            acc = rep["data"][0]["acc"]
+            wpm = rep["data"][0]["wpm"]
+            consistency = rep["data"][0]["consistency"]
+            timestamp = rep["data"][0]["timestamp"]
 
     state = {
-        "acc":acc,
-        "wpm":wpm,
-        "consistency":consistency,
-        "timestamp":timestamp,
+        "acc": acc,
+        "wpm": wpm,
+        "consistency": consistency,
+        "timestamp": timestamp,
     }
 
     return render.Root(
@@ -160,16 +157,14 @@ def main(config):
         ),
     )
 
-
 def easeOut(t):
     sqt = t * t
     return sqt / (2.0 * (sqt - t) + 1.0)
 
-
 def capanim(input):
     return max(0, min(100, input))
 
-def get_frame(state, fr, config,animprogress):
+def get_frame(state, fr, config, animprogress):
     children = []
     delay = 0
 
@@ -184,7 +179,6 @@ def get_frame(state, fr, config,animprogress):
                 render.Text("%s" % str(state["acc"]), font = "", color = lightness("#e5a00d", animprogress / 100)),
             ],
         ),
-        
     )
     children.append(
         render.Row(
@@ -197,16 +191,14 @@ def get_frame(state, fr, config,animprogress):
                 render.Text("%s" % str(state["wpm"]), font = "", color = lightness("#e5a00d", animprogress / 100)),
             ],
         ),
-        
     )
     return render.Column(
         main_align = "space_between",
         cross_align = "center",
         children = children,
     )
-    
-def more_options(mode):
 
+def more_options(mode):
     mode2ops1 = [
         schema.Option(
             display = "15",
@@ -216,11 +208,11 @@ def more_options(mode):
             display = "30",
             value = "30",
         ),
-         schema.Option(
+        schema.Option(
             display = "60",
             value = "60",
         ),
-         schema.Option(
+        schema.Option(
             display = "120",
             value = "120",
         ),
@@ -234,23 +226,22 @@ def more_options(mode):
             display = "25",
             value = "25",
         ),
-         schema.Option(
+        schema.Option(
             display = "50",
             value = "50",
         ),
-         schema.Option(
+        schema.Option(
             display = "100",
             value = "100",
         ),
     ]
-
 
     if mode == "time":
         return [
             schema.Dropdown(
                 id = "mode2",
                 name = "Mode",
-                desc = "Type of Test",
+                desc = "Length of Test",
                 icon = "brush",
                 default = "15",
                 options = mode2ops1,
@@ -258,10 +249,10 @@ def more_options(mode):
         ]
     elif mode == "words":
         return [
-           schema.Dropdown(
+            schema.Dropdown(
                 id = "mode2",
                 name = "Mode",
-                desc = "Type of Test",
+                desc = "Lenfth of Test",
                 icon = "brush",
                 default = "10",
                 options = mode2ops2,
@@ -303,7 +294,5 @@ def get_schema():
                 source = "mode1",
                 handler = more_options,
             ),
-       
-            
         ],
     )
