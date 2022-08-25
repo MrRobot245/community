@@ -128,12 +128,18 @@ def main(config):
             cache.set("apekey-"+config.str("api"),json.encode(rep), ttl_seconds=1)
             
 
-        # print(rep["data"])
-
-        acc=rep["data"][0]["acc"]
-        wpm=rep["data"][0]["wpm"]
-        consistency=rep["data"][0]["consistency"]
-        timestamp=rep["data"][0]["timestamp"]
+        print(rep["data"])
+        if rep["data"]==None:
+            print("WHOOP")
+            acc="--"
+            wpm="--"
+            consistency="--"
+            timestamp="--"
+        else:
+            acc=rep["data"][0]["acc"]
+            wpm=rep["data"][0]["wpm"]
+            consistency=rep["data"][0]["consistency"]
+            timestamp=rep["data"][0]["timestamp"]
 
     state = {
         "acc":acc,
@@ -239,26 +245,26 @@ def more_options(mode):
     ]
 
 
-    if mode == "words":
+    if mode == "time":
         return [
             schema.Dropdown(
                 id = "mode2",
                 name = "Mode",
                 desc = "Type of Test",
                 icon = "brush",
-                default = mode2ops2[0].value,
-                options = mode2ops2,
+                default = "15",
+                options = mode2ops1,
             ),
         ]
-    elif mode == "time":
+    elif mode == "words":
         return [
            schema.Dropdown(
                 id = "mode2",
                 name = "Mode",
                 desc = "Type of Test",
                 icon = "brush",
-                default = mode2ops1[0].value,
-                options = mode2ops1,
+                default = "10",
+                options = mode2ops2,
             ),
         ]
     else:
