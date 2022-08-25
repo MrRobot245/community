@@ -121,11 +121,11 @@ def main(config):
             headers = {
                 'Authorization': 'ApeKey '+config.str("api")
                 }
-            rep = http.get("https://api.monkeytype.com/users/personalBests?mode=time&mode2=30",headers=headers)
+            rep = http.get("https://api.monkeytype.com/users/personalBests?mode="+str(config.str("mode1"))+"&mode2="+str(config.str("mode2")),headers=headers)
             if rep.status_code != 200:
                 fail("Monkeytype request failed with status %d", rep.status_code)
             rep= rep.json()
-            cache.set("apekey-"+config.str("api"),json.encode(rep), ttl_seconds=120)
+            cache.set("apekey-"+config.str("api"),json.encode(rep), ttl_seconds=1)
             
 
         # print(rep["data"])
@@ -134,13 +134,6 @@ def main(config):
         wpm=rep["data"][0]["wpm"]
         consistency=rep["data"][0]["consistency"]
         timestamp=rep["data"][0]["timestamp"]
-        # bandwidth = rep["response"]['data']['total_bandwidth']
-        # bandwidth = math.round((bandwidth/1024)*100)/100
-        # users=rep["response"]['data']['stream_count']
-        # dp1=rep["response"]['data']['stream_count_direct_play']
-        # dp2=rep["response"]['data']['stream_count_direct_stream']
-        # dp=int(dp1+dp2)
-        # tc=int(rep["response"]['data']['stream_count_transcode'])
 
     state = {
         "acc":acc,
@@ -205,8 +198,83 @@ def get_frame(state, fr, config,animprogress):
         cross_align = "center",
         children = children,
     )
+    
+def more_options(mode):
+
+    mode2ops1 = [
+        schema.Option(
+            display = "15",
+            value = "15",
+        ),
+        schema.Option(
+            display = "30",
+            value = "30",
+        ),
+         schema.Option(
+            display = "60",
+            value = "60",
+        ),
+         schema.Option(
+            display = "120",
+            value = "120",
+        ),
+    ]
+    mode2ops2 = [
+        schema.Option(
+            display = "10",
+            value = "10",
+        ),
+        schema.Option(
+            display = "25",
+            value = "25",
+        ),
+         schema.Option(
+            display = "50",
+            value = "50",
+        ),
+         schema.Option(
+            display = "100",
+            value = "100",
+        ),
+    ]
+
+
+    if mode == "words":
+        return [
+            schema.Dropdown(
+                id = "mode2",
+                name = "Mode",
+                desc = "Type of Test",
+                icon = "brush",
+                default = mode2ops2[0].value,
+                options = mode2ops2,
+            ),
+        ]
+    elif mode == "time":
+        return [
+           schema.Dropdown(
+                id = "mode2",
+                name = "Mode",
+                desc = "Type of Test",
+                icon = "brush",
+                default = mode2ops1[0].value,
+                options = mode2ops1,
+            ),
+        ]
+    else:
+        return []
 
 def get_schema():
+    mode1 = [
+        schema.Option(
+            display = "Words",
+            value = "words",
+        ),
+        schema.Option(
+            display = "Time",
+            value = "time",
+        ),
+    ]
     return schema.Schema(
         version = "1",
         fields = [
@@ -216,5 +284,20 @@ def get_schema():
                 desc = "Ape Key for MonkeyType",
                 icon = "arrowUpFromBracket",
             ),
+            schema.Dropdown(
+                id = "mode1",
+                name = "Mode",
+                desc = "Type of Test",
+                icon = "brush",
+                default = mode1[0].value,
+                options = mode1,
+            ),
+            schema.Generated(
+                id = "generated",
+                source = "mode1",
+                handler = more_options,
+            ),
+       
+            
         ],
     )
