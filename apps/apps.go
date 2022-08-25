@@ -76,6 +76,7 @@ import (
 	"tidbyt.dev/community/apps/mindthegap"
 	"tidbyt.dev/community/apps/mlbleaders"
 	"tidbyt.dev/community/apps/mlbscores"
+	"tidbyt.dev/community/apps/mlbstandings"
 	"tidbyt.dev/community/apps/mlsscores"
 	"tidbyt.dev/community/apps/mnlightrail"
 	"tidbyt.dev/community/apps/moretransit"
@@ -83,9 +84,12 @@ import (
 	"tidbyt.dev/community/apps/natdex"
 	"tidbyt.dev/community/apps/nationaltoday"
 	"tidbyt.dev/community/apps/nbascores"
+	"tidbyt.dev/community/apps/ncaafscores"
+	"tidbyt.dev/community/apps/ncaafstandings"
 	"tidbyt.dev/community/apps/nearearthobjs"
 	"tidbyt.dev/community/apps/netatmo"
 	"tidbyt.dev/community/apps/nflscores"
+	"tidbyt.dev/community/apps/nflstandings"
 	"tidbyt.dev/community/apps/nft"
 	"tidbyt.dev/community/apps/nhllive"
 	"tidbyt.dev/community/apps/nhlnextgame"
@@ -108,6 +112,7 @@ import (
 	"tidbyt.dev/community/apps/pubgstats"
 	"tidbyt.dev/community/apps/pulsechain"
 	"tidbyt.dev/community/apps/purpleair"
+	"tidbyt.dev/community/apps/randomfox"
 	"tidbyt.dev/community/apps/randomslackmoji"
 	"tidbyt.dev/community/apps/redditimages"
 	"tidbyt.dev/community/apps/redditrplace"
@@ -133,6 +138,7 @@ import (
 	"tidbyt.dev/community/apps/surfforecast"
 	"tidbyt.dev/community/apps/surflive"
 	"tidbyt.dev/community/apps/tartan"
+	"tidbyt.dev/community/apps/tautulli"
 	"tidbyt.dev/community/apps/tcatbusarrivals"
 	"tidbyt.dev/community/apps/tempest"
 	"tidbyt.dev/community/apps/teslafi"
@@ -235,6 +241,7 @@ func GetManifests() []manifest.Manifest {
 		mindthegap.New(),
 		mlbleaders.New(),
 		mlbscores.New(),
+		mlbstandings.New(),
 		mlsscores.New(),
 		mnlightrail.New(),
 		moretransit.New(),
@@ -242,9 +249,12 @@ func GetManifests() []manifest.Manifest {
 		natdex.New(),
 		nationaltoday.New(),
 		nbascores.New(),
+		ncaafscores.New(),
+		ncaafstandings.New(),
 		nearearthobjs.New(),
 		netatmo.New(),
 		nflscores.New(),
+		nflstandings.New(),
 		nft.New(),
 		nhllive.New(),
 		nhlnextgame.New(),
@@ -267,6 +277,7 @@ func GetManifests() []manifest.Manifest {
 		pubgstats.New(),
 		pulsechain.New(),
 		purpleair.New(),
+		randomfox.New(),
 		randomslackmoji.New(),
 		redditimages.New(),
 		redditrplace.New(),
@@ -292,6 +303,7 @@ func GetManifests() []manifest.Manifest {
 		surfforecast.New(),
 		surflive.New(),
 		tartan.New(),
+		tautulli.New(),
 		tcatbusarrivals.New(),
 		tempest.New(),
 		teslafi.New(),
